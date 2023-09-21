@@ -1,5 +1,4 @@
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js')
-const reader = require("g-sheets-api");
 const fetch = require("node-fetch");
 
 const client = new Client({
@@ -38,12 +37,6 @@ const roundToPerc = (fullNum, digits = 2) => Math.round(fullNum * (10 ** digits)
 const maxChar = 20
 const prefix = "$";
 const website_link = "https://reset-analytics-dev.vercel.app";
-const readerOptions = {
-  apiKey: process.env.SHEETS_API_KEY,
-  sheetId: process.env.NAME_KEY_SHEET,
-  returnAllResults: false,
-  sheetName: 'Data'
-};
 
 const fetcher = url => fetch(url).then((res) => {
   console.log(res.ok);
@@ -109,59 +102,8 @@ const data_to_msg = (data, func, args, runner_id) => {
   return embed
 }
 
-async function nameToID(str) {
-  const name = str.toLowerCase()
-  const readerOptions = {
-    apiKey: process.env.SHEETS_API_KEY,
-    sheetId: process.env.NAME_KEY_SHEET,
-    returnAllResults: false,
-    sheetName: 'Data'
-  };
-  return new Promise(resolve => {
-    reader(readerOptions, data => {
-      if (name.length > maxChar) {
-        return resolve([name, "runner"])
-      }
-      const userRow = data.filter(row => row["Username"] === name || (row["Aliases"] || "").split(",").includes(name))
-      if (userRow.length != 1) {
-        return resolve()
-      } else {
-        return resolve([userRow[0]["SheetId"], name])
-      }
-    })
-  })
-}
-
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
-
-client.on("messageCreate", msg => {
-  if (!msg.content.startsWith(prefix) || msg.author.bot) return
-  let [func1, id, ...args1] = msg.content.slice(prefix.length).split(" ");
-  args1 = Object.fromEntries(args1.map(arg => arg.split('=')));
-  if (args1.length < 2) return
-  let runner_id = []
-  nameToID(id)
-    .then((sheetID1) => {
-      runner_id = sheetID1
-      return `${website_link}/api/sheet/${sheetID1[0]}`;
-    })
-    .then((url) =>
-      fetch(url)
-    )
-    .then((res) => {
-      console.log(res.ok);
-      return res.json()
-    })
-    .then((data1) => {
-      msg.channel.send({ embeds: [data_to_msg(data1, func1, args1, runner_id)] })
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-});
-
-
 
 client.login(process.env.TOKEN);

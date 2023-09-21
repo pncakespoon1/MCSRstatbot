@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "g-sheets-api": "^2.2.0",
+    "node-fetch": "^2.7.0"
+  }
+}
