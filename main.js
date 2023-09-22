@@ -1,6 +1,12 @@
-const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js')
+require('dotenv').config();
+
+const fs = require('node:fs');
+const path = require('node:path');
+
+const { Client, Collection, GatewayIntentBits, EmbedBuilder } = require('discord.js')
 const fetch = require("node-fetch");
 
+//creating the client object
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -9,40 +15,13 @@ const client = new Client({
   ]
 })
 
-const colourList = ["#0088FE", "#00C49F", "#973e95", "#FF8042", "#FFC0CB", "#FFD700"]
+// timelines array will be moved to commands/split.js upon its creation
+const timelines = ["Iron", "Wood", "Iron Pickaxe", "Nether", "Bastion", "Fortress", "Nether Exit", "Stronghold", "End"] 
 
-const timelines = ["Iron", "Wood", "Iron Pickaxe", "Nether", "Bastion", "Fortress", "Nether Exit", "Stronghold", "End"]
-
-const msToStr = (ms, dp = true) => {
-  let deciseconds = Math.floor((ms % 1000) / 100),
-    seconds = Math.floor((ms / 1000) % 60),
-    minutes = Math.floor((ms / (1000 * 60)) % 60),
-    hours = Math.floor((ms / (1000 * 60 * 60)));
-
-
-  hours = (hours < 10) ? "0" + hours : hours;
-  minutes = (minutes < 10 && hours !== "00") ? "0" + minutes : minutes;
-  seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-  if (hours === "00") {
-    return minutes + ":" + seconds + (dp ? "." + deciseconds : "")
-  } else {
-    return hours + ":" + minutes + ":" + seconds + (dp ? "." + deciseconds : "")
-  }
-}
-
-const roundToPerc = (fullNum, digits = 2) => Math.round(fullNum * (10 ** digits)) / (10 ** digits)
-
-
-const maxChar = 20
-const prefix = "$";
+// i will probably move variables like this one to a central json file
 const website_link = "https://reset-analytics-dev.vercel.app";
 
-const fetcher = url => fetch(url).then((res) => {
-  console.log(res.ok);
-  return res.json()
-});
-
+// this method isn't referenced, it's just holding some code that is yet to be moved
 const data_to_msg = (data, func, args, runner_id) => {
   let sess_data
   if (args.hasOwnProperty("session")) {
@@ -102,6 +81,21 @@ const data_to_msg = (data, func, args, runner_id) => {
   return embed
 }
 
+for (const folder of commandFolders) {
+	const commandsPath = path.join(foldersPath, folder);
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+	for (const file of commandFiles) {
+		const filePath = path.join(commandsPath, file);
+		const command = require(filePath);
+		if ('data' in command && 'execute' in command) {
+			client.commands.set(command.data.name, command);
+		} else {
+			console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+		}
+	}
+}
+
+// bot gets booted up
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });

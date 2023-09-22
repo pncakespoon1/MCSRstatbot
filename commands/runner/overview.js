@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-import { msToStr, roundToPerc } from '../helpers/formatting';
+const { msToStr, roundToPerc } = require('../../helpers/formatting');
+const fetch = require("node-fetch");
 
 module.exports = {
 	cooldown: 10,
@@ -13,11 +14,11 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('session')
 				.setDescription('Choose the session (currently just latest or all)')
-				.setRequired(false))
+				.setRequired(false)
 		.addChoices(
 			{ name: "latest", value: "latest" },
 			{ name: "all", value: "all" }
-		),
+		)),
 	async execute(interaction) {
 		const session = interaction.options.getString('session');
 		const runner = interaction.options.getRunner('session');
