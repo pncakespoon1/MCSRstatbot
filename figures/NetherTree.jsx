@@ -1,6 +1,6 @@
 import React from 'react'
 import { ResponsiveContainer, Treemap, Tooltip } from 'recharts'
-import { colourList } from '../../../public/helpers/frontend'
+import { colourList } from '../helpers/data'
 
 const NetherTree = ({ netherTreeData }) => {
     const renderContent = ({ root, depth, x, y, width, height, index, payload, rank, name, colors }) => {

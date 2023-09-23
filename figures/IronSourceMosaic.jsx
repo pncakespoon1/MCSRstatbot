@@ -1,8 +1,6 @@
 import React from 'react'
-import { ResponsiveContainer } from 'recharts'
-import { colourList } from '../../../public/helpers/frontend'
-import { roundToPerc } from '../../../public/helpers/frontendConverters'
-import { Col, Row } from "react-bootstrap"
+import { colourList } from '../helpers/data'
+import { roundToPerc } from '../helpers/formatting'
 import ReactTooltip from 'react-tooltip'
 
 const customToolTip = ({ }) => {

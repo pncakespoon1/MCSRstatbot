@@ -1,6 +1,6 @@
 import { Table } from "react-bootstrap"
-import { msToStr, roundToPerc } from "../../../public/helpers/frontendConverters"
-import { GeneralExtraStatsTooltips } from "../../Tooltips"
+import { msToStr, roundToPerc } from "../helpers/data"
+import { GeneralExtraStatsTooltips } from "../components/Tooltips"
 
 const GeneralExtraStats = ({ data }) => {
   const names = (data.pn ? ["RNPH"] : []).concat([

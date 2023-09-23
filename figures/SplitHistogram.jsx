@@ -1,6 +1,6 @@
 import { Col, Row } from "react-bootstrap"
 import { Label, Tooltip, XAxis, YAxis, ResponsiveContainer, LineChart, Line, CartesianGrid } from "recharts"
-import { msToStr } from "../../../public/helpers/frontendConverters"
+import { msToStr } from "../helpers/formatting"
 
 const CustomTooltip = ({ active, payload, label, total }) => {
   if (active && payload && payload.length) {

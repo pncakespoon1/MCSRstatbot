@@ -1,7 +1,7 @@
 import { Col, Row } from "react-bootstrap"
 import { BarChart, Tooltip, Bar, XAxis, Pie, PieChart, Cell, Legend, YAxis, ResponsiveContainer } from "recharts"
-import { colourList } from "../../../public/helpers/frontend"
-import { msToStr } from "../../../public/helpers/frontendConverters"
+import { colourList } from "../helper/data"
+import { msToStr } from "../helpers/formatting"
 
 const CustomTick = ({ x, y, payload }) => {
   const imgPath = `/imgs/biomes/${payload.value.replace("/", "")}.png`

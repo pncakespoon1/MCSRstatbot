@@ -1,6 +1,6 @@
 import { Table } from "react-bootstrap"
-import { msToStr, roundToPerc } from "../../../public/helpers/frontendConverters"
-import { SplitInfoTooltips } from "../../Tooltips"
+import { msToStr, roundToPerc } from "../helpers/formatting"
+import { SplitInfoTooltips } from "../components/Tooltips"
 
 
 const SplitInfo = ({ splitName, splitData }) => {

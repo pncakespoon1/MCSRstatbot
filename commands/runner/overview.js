@@ -3,7 +3,7 @@ const { msToStr, roundToPerc } = require('../../helpers/formatting');
 const fetch = require("node-fetch");
 
 module.exports = {
-	cooldown: 10,
+	cooldown: 1,
 	data: new SlashCommandBuilder()
 		.setName('overview')
 		.setDescription('Shows basic info from a runner\'s stats.')
@@ -47,6 +47,7 @@ module.exports = {
 			.then((data) => {
 				const sess_data = (session === "latest" ? data["session"][0]["ops"] : data["overall"])
 				const fields = [
+					{ name: "session", value: session },
 					{ name: "rnph", value: String(roundToPerc(sess_data["rnph"])) },
 					{ name: "fnph", value: String(roundToPerc(sess_data["fnph"])) },
 					{ name: "enter avg", value: msToStr(sess_data["tl"][3]["time"]) },

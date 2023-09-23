@@ -1,6 +1,6 @@
 import { Col, Row } from "react-bootstrap"
 import { Table } from "react-bootstrap"
-import { msToStr, roundToPerc } from "../../../public/helpers/frontendConverters"
+import { msToStr, roundToPerc } from "../helpers/formatting"
 
 const TimelineTable = ({ data }) => {
   return (

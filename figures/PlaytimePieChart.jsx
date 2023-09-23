@@ -1,7 +1,7 @@
 import { Col, Row } from "react-bootstrap"
 import { Tooltip, Pie, PieChart, Cell, Legend, ResponsiveContainer } from "recharts"
-import { colourList } from "../../../public/helpers/frontend"
-import { msToStr } from "../../../public/helpers/frontendConverters"
+import { colourList } from "../helpers/data"
+import { msToStr } from "../helpers/formatting"
 
 const PlaytimePieChart = ({ data }) => {
   const playtimePieChartData = []
