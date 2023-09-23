@@ -15,19 +15,32 @@ module.exports = {
 			option.setName('session')
 				.setDescription('Choose the session (currently just latest or all)')
 				.setRequired(false)
-		.addChoices(
-			{ name: "latest", value: "latest" },
-			{ name: "all", value: "all" }
-		)),
+				.addChoices(
+					{ name: "latest", value: "latest" },
+					{ name: "all", value: "all" }
+				)),
 	async execute(interaction) {
 		const session = interaction.options.getString('session');
-		const runner = interaction.options.getRunner('session');
-		const id = (runner.length > 20 ? runner : nameToID(runner))
+		const id = interaction.options.getString('runner');
 		const website_link = "https://reset-analytics-dev.vercel.app"
-		const link = `${website_link}/api/sheet/${id}`
+		const isID = (id.length > 20)
+		const link = (isID ? `${website_link}/api/sheet/${id}` : `${website_link}/api/user/${id}`)
 
 		fetch(link)
 			.then((res) => {
+				console.log(res.ok);
+				return res.json()
+			})
+			.then((data) => {
+				if (isID) {
+					return data
+				}
+				return fetch(`${website_link}/api/sheet/${data["sheetId"]}`)
+			})
+			.then((res) => {
+				if (isID) {
+					return res
+				}
 				console.log(res.ok);
 				return res.json()
 			})
@@ -42,11 +55,11 @@ module.exports = {
 					{ name: "reset count", value: String(sess_data["rc"]) }
 				]
 				const embed = new EmbedBuilder()
-					.setTitle(`Stats for ${(runner.length > 20 ? "runner" : runner)}`)
-					.setURL(`${website_link}/sheet/${link}`)
+					.setTitle(`Stats for ${(isID ? "runner" : id)}`)
+					.setURL((isID ? `${website_link}/sheet/${id}` : `${website_link}/${id}`))
 					.setDescription("basic overview stats")
 					.addFields(...fields)
-				interaction.reply({ embers: [embed] })
+				return interaction.reply({ embeds: [embed] })
 
 			})
 	}
