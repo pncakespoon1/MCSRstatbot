@@ -14,7 +14,7 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('session')
 				.setDescription('Choose the session (currently just latest or all)')
-				.setRequired(false)
+				.setRequired(true)
 				.addChoices(
 					{ name: "latest", value: "latest" },
 					{ name: "all", value: "all" }
@@ -47,13 +47,13 @@ module.exports = {
 			.then((data) => {
 				const sess_data = (session === "latest" ? data["session"][0]["ops"] : data["overall"])
 				const fields = [
-					{ name: "session", value: session },
-					{ name: "rnph", value: String(roundToPerc(sess_data["rnph"])) },
-					{ name: "fnph", value: String(roundToPerc(sess_data["fnph"])) },
-					{ name: "enter avg", value: msToStr(sess_data["tl"][3]["time"]) },
-					{ name: "playtime", value: msToStr(sess_data["tp"]) },
-					{ name: "seeds played %", value: `${roundToPerc(roundToPerc(sess_data["pc"] / sess_data["rc"], 4) * 100)}%` },
-					{ name: "reset count", value: String(sess_data["rc"]) }
+					{ name: "Session", value: session },
+					{ name: "RNPH", value: String(roundToPerc(sess_data["rnph"])) },
+					{ name: "FNPH", value: String(roundToPerc(sess_data["fnph"])) },
+					{ name: "Enter avg", value: msToStr(sess_data["tl"][3]["time"]) },
+					{ name: "Playtime", value: msToStr(sess_data["tp"]) },
+					{ name: "Seeds played %", value: `${roundToPerc(roundToPerc(sess_data["pc"] / sess_data["rc"], 4) * 100)}%` },
+					{ name: "Reset count", value: String(sess_data["rc"]) }
 				]
 				const embed = new EmbedBuilder()
 					.setTitle(`Stats for ${(isID ? "runner" : id)}`)

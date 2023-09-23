@@ -35,7 +35,7 @@ module.exports = {
                     { name: "End", value: "End" }
                 )),
     async execute(interaction) {
-        const timelines = ["Iron", "Wood", "Iron Pickaxe", "Nether", "Bastion", "Fortress", "Nether Exit", "Stronghold", "End"] 
+        const timelines = ["Iron", "Wood", "Iron Pickaxe", "Nether", "Bastion", "Fortress", "Nether Exit", "Stronghold", "End"]
         const session = interaction.options.getString('session');
         const id = interaction.options.getString('runner');
         const split = interaction.options.getString('split')
@@ -65,8 +65,9 @@ module.exports = {
                 const sess_data = (session === "latest" ? data["session"][0]["ops"] : data["overall"])
                 const split_data = sess_data["tl"][timelines.indexOf(split)]
                 const fields = [
-                    { name: "session", value: session },
-                    { name: "split", value: split },
+                    { name: "Session", value: session },
+                    { name: "Split", value: split },
+                    { name: '\u200B', value: '\u200B' },
                     { name: "Count", value: String(split_data["total"]), inline: true },
                     { name: "Count per hour", value: `${roundToPerc(split_data["xph"])}`, inline: true },
                     { name: '\u200B', value: '\u200B' },
