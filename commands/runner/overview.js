@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { msToStr, roundToPerc } = require('../../helpers/formatting');
 const fetch = require("node-fetch");
+const { website_link } = require("../../helpers/data")
 
 module.exports = {
 	cooldown: 1,
@@ -22,7 +23,6 @@ module.exports = {
 	async execute(interaction) {
 		const session = interaction.options.getString('session');
 		const id = interaction.options.getString('runner');
-		const website_link = "https://reset-analytics-dev.vercel.app"
 		const isID = (id.length > 20)
 		const link = (isID ? `${website_link}/api/sheet/${id}` : `${website_link}/api/user/${id}`)
 
@@ -63,5 +63,9 @@ module.exports = {
 				return interaction.reply({ embeds: [embed] })
 
 			})
+			.catch((error) => {
+                interaction.reply("An error occured")
+            })
+     
 	}
 }
