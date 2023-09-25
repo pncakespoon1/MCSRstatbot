@@ -49,7 +49,7 @@ module.exports = {
 				const fields = [
 					{ name: "Session", value: session },
 					{ name: "RNPH", value: String(roundToPerc(sess_data["rnph"])) },
-					{ name: "FNPH", value: String(roundToPerc(sess_data["fnph"])) },
+					{ name: "LNPH", value: String(roundToPerc(sess_data["fnph"])) },
 					{ name: "Enter avg", value: msToStr(sess_data["tl"][3]["time"]) },
 					{ name: "Playtime", value: msToStr(sess_data["tp"]) },
 					{ name: "Seeds played %", value: `${roundToPerc(roundToPerc(sess_data["pc"] / sess_data["rc"], 4) * 100)}%` },
